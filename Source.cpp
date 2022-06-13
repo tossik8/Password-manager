@@ -193,9 +193,10 @@ int main() {
         myFile.close();
         
         m.addPassword();
+        m.addCategory("KK");
         std::cout << m.getText();
         m.save(m.getText(), pass);
-        std::cout << m.getText();
+        m.categories();
     }
     else {
         std::string pass;
@@ -226,44 +227,59 @@ int main() {
                         ++i;
                         continue;
                     }
-                   
+                    
                         std::string tmp;
                         for (int i2 = 0, passInd = 0; i2 < line.size(); ++i2) {
                             char c;
                             if (passInd >= pass.size()) passInd = 0;
-                            
                                 c = (char)(line.at(i2) - pass.at(passInd));
                                 tmp.push_back(c);
-                                ++passInd;
-                            
-                            
+                                ++passInd;     
                         }
+                        if (tmp.starts_with("Categories")) break;
                         m.setText(tmp);
                     }
+                std::string subline, sub2line, res,tmp;
+                std::istringstream istream;
+                istream.str(m.getText());
+                while (getline(istream, line)) {
+                    if (line.starts_with("Categories")) break;
+                    int found = line.find("Category: ");
+                    subline = line.substr(found);
+                    found = subline.find(" ");
+                    sub2line = subline.substr(found);
+                    for (int i = 1; sub2line.at(i) != ';'; ++i) {
+                        res.push_back(sub2line.at(i));
+                    }
+                    m.addCategory(res);
+                }
+                while (getline(file, line)) {
+                    for (int i2 = 0, passInd = 0; i2 < line.size(); ++i2) {
+                        char c;
+                        if (passInd >= pass.size()) passInd = 0;
+                        c = (char)(line.at(i2) - pass.at(passInd));
+                        if (c == ';') {
+                            m.addCategory(tmp);
+                        }
+                        else {
+                            tmp.push_back(c);
+                        }
+                        ++passInd;
+                    }
+                    tmp = "";
                     
                 }
-            std::string line, subline,sub2line, res;
-            std::istringstream istream;
-            istream.str(m.getText());
-            while (getline(istream, line)) {
-                int found = line.find("Category: ");
-                subline = line.substr(found);
-                found = subline.find(" ");
-                sub2line = subline.substr(found);
-                for (int i = 1; sub2line.at(i) != ';'; ++i) {
-                    res.push_back(sub2line.at(i));
-                }
-                m.addCategory(res);
             }
+            
             std::cout << m.getText();
             file.close();
             //m.addPassword();
             //m.removePassword();
-            //m.categories();
+            m.categories();
             //m.editPassword();
            // m.searchPassword();
             //m.removeCategory();
-             m.addCategory("Max");
+             //m.addCategory("Max");
            // std::cout << m.getText();
              m.save(m.getText(), pass);
            

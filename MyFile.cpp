@@ -10,8 +10,11 @@
 
 MyFile::MyFile() : text(""), category({}) {}
 //!Returns the content of the class
-std::string MyFile::getText() {
+std::string MyFile::getText() const{
 	return text;
+}
+std::vector<std::string> MyFile::getVector() const{
+	return category;
 }
 //!Updates the content of the class
 void MyFile::setText(std::string text) {
@@ -222,7 +225,9 @@ std::string MyFile::chooseCat() {
 		return chooseCat();
 	}
 }
-
+/*!!Removes a category from the vector with categories
+* As well as removes all records associated with that category
+*/
 void MyFile::removeCategory() {
 	int i;
 	std::cout << "Choose a category to remove: ";

@@ -25,12 +25,10 @@ void MyFile::addCategory(std::string cate) {
 	
 	for (int i = 0; i < category.size(); ++i) {
 		if (category.at(i) == cate) {
-			std::cout << cate << " already exists\n";
 			return;
 		}
 	}
 	category.push_back(cate);
-	std::cout << cate << " has been added\n";
 }
 //!Adds a new password to the currently existing ones
 void MyFile::addPassword() {
@@ -201,6 +199,27 @@ void MyFile::save(std::string text, std::string key) {
 			myFile << (char)(text.at(i) + key.at(keyInd));
 			++keyInd;
 		}
+	}
+	const std::string s = "Categories\n";
+	for (int i = 0, keyInd = 0; i < s.size(); ++i) {
+		if (key.size() <= keyInd) keyInd = 0;
+		if (s.at(i) == '\n') {
+			myFile << '\n';
+			keyInd = 0;
+		}
+		else {
+			myFile << (char)(s.at(i) + key.at(keyInd));
+			++keyInd;
+		}
+	}
+	for (int j = 0; j < category.size(); ++j) {
+		for (int i = 0, keyInd = 0; i < category.at(j).size() + 1; ++i) {
+			if (key.size() <= keyInd) keyInd = 0;
+			if (i == category.at(j).size()) myFile << (char)(';' + key.at(keyInd));
+			else myFile << (char)(category.at(j).at(i) + key.at(keyInd));
+			++keyInd;
+		}
+		myFile << '\n';
 	}
 }
 //!Invoked from addPassword method when the user is asked to which category the record should be assigned to

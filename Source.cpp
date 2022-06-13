@@ -241,11 +241,21 @@ int main() {
                         m.setText(tmp);
                     }
                     
-                    
                 }
-                
+            std::string line, subline,sub2line, res;
+            std::istringstream istream;
+            istream.str(m.getText());
+            while (getline(istream, line)) {
+                int found = line.find("Category: ");
+                subline = line.substr(found);
+                found = subline.find(" ");
+                sub2line = subline.substr(found);
+                for (int i = 1; sub2line.at(i) != ';'; ++i) {
+                    res.push_back(sub2line.at(i));
+                }
+                m.addCategory(res);
+            }
             std::cout << m.getText();
-           
             file.close();
             //m.addPassword();
             //m.removePassword();
@@ -253,6 +263,7 @@ int main() {
             //m.editPassword();
            // m.searchPassword();
             //m.removeCategory();
+             m.addCategory("Max");
            // std::cout << m.getText();
              m.save(m.getText(), pass);
            

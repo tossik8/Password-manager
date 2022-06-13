@@ -8,9 +8,10 @@ class MyFile {
 	std::vector<std::string> category;
 public:
 	MyFile();
+	std::vector<std::string> getVector() const;
 	void categories() const;
 	void setText(std::string text);
-	std::string getText();
+	std::string getText() const;
 	void addPassword();
 	void addCategory(std::string cate);
 	void removeCategory();

@@ -344,7 +344,7 @@ void MyFile::removePassword() {
 	}
 	
 	else{
-		std::cout << "Nothing has been changed";
+		std::cout << "Nothing has been changed\n";
 	}
 	
 }
@@ -393,6 +393,7 @@ void MyFile::editPassword() {
 		++num;
 		
 	}
+	std::cout << "Password has been modified\n";
 
 }
 

@@ -111,6 +111,7 @@ void MyFile::addPassword() {
 			cate = chooseCat();
 		}
 	}
+	addCategory(cate);
 	res.append("Category: ").append(cate).append("; ");
 	std::cout << "Login(optional - 0 to skip): ";
 	std::cin >> log;
@@ -131,9 +132,9 @@ int num_of_char() {
 	int num;
 	std::cout << "Number of characters: ";
 	//https://stackoverflow.com/questions/20709633/what-do-i-do-with-throw-to-handle-wrong-data-type-in-c
-	while (!(std::cin >> num))
+	while (!(std::cin >> num) || num <= 0)
 	{
-		std::cout << "Number of characters: " << std::endl;
+		std::cout << "Number of characters: ";
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}//
@@ -141,8 +142,10 @@ int num_of_char() {
 
 }
 /*!Saves the updated file
-*parameter 'text' is the new data which must be stored
- parameter 'key' is the password which user used for the decryption of a file*/
+* parameter 'text' is the new data which must be stored
+* parameter 'key' is the password which user used for the decryption of a file
+* Categories inside the vecor are encrypted and written to the file as well.
+ */
 void MyFile::save(std::string text, std::string key) {
 	//https://www.delftstack.com/howto/cpp/how-to-append-text-to-a-file-in-cpp/
 	std::ofstream myFile;
@@ -227,23 +230,17 @@ std::string MyFile::chooseCat() {
 	std::cout << "Choose a category\n";
 	int c;
 	categories();
-	try {
 		std::cin >> c;
-		if (c <= 0) {
+		if (c <= 0 || c > category.size() || !std::cin) {
 			std::cout << "Wrong value\n";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			return chooseCat();
 		}
-		else if (c >= category.size()) {
-			std::cout << "Wrong value\n";
-			return chooseCat();
-		}
+		
 		return category.at(c - 1);
 	}
-	catch (std::exception e) {
-		std::cout << "Wrong symbol\n";
-		return chooseCat();
-	}
-}
+	
 /*!!Removes a category from the vector with categories
 * As well as removes all records associated with that category
 */
@@ -351,8 +348,52 @@ void MyFile::removePassword() {
 	}
 	
 }
+/*!
+* Edits the user's passwords one at a time
+*/
 void MyFile::editPassword() {
+	std::cout << "Choose a password which you want to update\n";
+	int num = 0, i;
+	std::istringstream istream;
+	std::string line, pass;
+	istream.str(text);
+	while (getline(istream, line)) {
+		std::cout << ++num << " - " << line << "\n";
+	}
+		std::cin >> i;
 		
+		if ((i <= 0 || i > num) || std::cin.fail()) {
+			std::cout << "Wrong input. Enter a new number\n";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cin >> i;
+			while (!(i > 0 && i <= num)) {
+				std::cout << "Wrong input. Enter a new number\n";
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+				std::cin >> i;
+			}
+		}
+	num = 1;
+	istream.clear();
+	istream.str(text);
+	text = "";
+	while (getline(istream, line)) {
+		if (num != i) {
+			setText(line);
+			++num;
+			continue;
+		}
+		std::cout << "Enter your new password: ";
+		std::cin >> pass;
+		int found = line.find(": "), found2 = line.find("; Category");
+		std::string cpy = line.substr(found2),cpy2 = line.substr(0,found+2);
+		cpy2.append(pass).append(cpy);
+		setText(cpy2);
+		++num;
+		
+	}
+
 }
 
 //! Lists all categories

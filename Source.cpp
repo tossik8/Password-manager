@@ -12,7 +12,10 @@ void menu() {
         << "4 - Edit a password\n"
         << "5 - Remove a password\n"
         << "6 - Add a category\n"
-        << "7 - Remove a category\n";
+        << "7 - Remove a category\n"
+        << "8 - See passwords\n"
+        << "9 - See cattegories\n"
+        << "10 - Save & exit\n";
 }
 /*!The function checks if a file, which the user inputted,
 * has been encrypted by the program and, therefore, it is the right file.
@@ -180,26 +183,25 @@ int main() {
     char val;
     std::cin >> val;
     MyFile m = MyFile();
+    std::string pass;
     if (val != 'y' && val != 'n') {
         std::cout << "Incorrect value";
         return 0;
     }
     else if(val == 'y'){
         std::ofstream myFile("Passwords.txt");
-        std::string pass;
         std::cout << "Set up a password. Password: ";
         std::cin >> pass;
         std::cout << "Password has been set\n";
         myFile.close();
         
-        m.addPassword();
+        /*m.addPassword();
         m.addCategory("KK");
         std::cout << m.getText();
         m.save(m.getText(), pass);
-        m.categories();
+        m.categories();*/
     }
     else {
-        std::string pass;
         std::cout << "Enter your password: ";
         std::cin >> pass;
         std::string fileV = fileGetter(0, pass);
@@ -288,4 +290,75 @@ int main() {
         }
         
     }
+    menu();
+    int i;
+    while (true) {
+        std::cout << "Enter a digit: ";
+        std::cin >> i;
+        if (!std::cin) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Enter a valid character! ";
+            while (!(std::cin >> i)) {
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Enter a valid character! ";
+            }
+        }
+        switch (i) {
+            case 1: {
+                m.searchPassword();
+                break;
+            }
+            case 2: {
+                //m.sortPasswords();
+                break;
+            }
+            case 3: {
+                m.addPassword();
+                break;
+            }
+            case 4: {
+                m.editPassword();
+                break;
+            }
+            case 5: {
+                m.removePassword();
+                break;
+            }
+            case 6: {
+                std::string s;
+                std::cout << "Enter the name of a category: ";
+                std::cin >> s;
+                m.addCategory(s);
+                std::cout << "Category " << s <<" has been added\n";
+                break;
+            }
+            case 7: {
+                m.removeCategory();
+                break;
+            }
+            case 8: {
+                std::cout << m.getText();
+                break;
+            }
+            case 9: {
+                std::cout << "Categories\n";
+                m.categories();
+                std::cout << "//\n";
+                break;
+            }
+            case 10: {
+                m.save(m.getText(), pass);
+                std::cout << "Data has been saved";
+                return 0;
+            }
+            default: {
+                std::cout << "Invalid input\n";
+            }
+
+        }
+        menu();
+    }
+    
 }

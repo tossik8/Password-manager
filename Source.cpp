@@ -252,6 +252,7 @@ int main() {
                         res.push_back(sub2line.at(i));
                     }
                     m.addCategory(res);
+                    res = "";
                 }
                 while (getline(file, line)) {
                     for (int i2 = 0, passInd = 0; i2 < line.size(); ++i2) {
@@ -260,27 +261,28 @@ int main() {
                         c = (char)(line.at(i2) - pass.at(passInd));
                         if (c == ';') {
                             m.addCategory(tmp);
+                            tmp = "";
                         }
                         else {
                             tmp.push_back(c);
                         }
                         ++passInd;
                     }
-                    tmp = "";
                     
                 }
             }
             
             std::cout << m.getText();
             file.close();
-            //m.addPassword();
+            //m.editPassword();
+           // m.addPassword();
             //m.removePassword();
-            m.categories();
+            // m.categories();
             //m.editPassword();
            // m.searchPassword();
             //m.removeCategory();
-             //m.addCategory("Max");
-           // std::cout << m.getText();
+            // m.addCategory("Max");
+            //std::cout << m.getText();
              m.save(m.getText(), pass);
            
         }

@@ -7,12 +7,19 @@
 #include <regex>
 #include <sstream>
 
-
+//! Constructs an object needed for manipulating data
 MyFile::MyFile() : text(""), category({}) {}
-//!Returns the content of the class
+/// <summary>
+/// Returns the content of MyFile object
+/// </summary>
+/// <returns>string</returns>
 std::string MyFile::getText() const{
 	return text;
 }
+/// <summary>
+/// Returns a vector with all categories
+/// </summary>
+/// <returns>vector of strings</returns>
 std::vector<std::string> MyFile::getVector() const{
 	return category;
 }
@@ -126,8 +133,8 @@ void MyFile::addPassword() {
 	
 	setText(res);
 }
-/*! Invoked when a user opts to generate a random password 
- in 'addPassword' method*/
+///Invoked when a user opts to generate a random password 
+///in 'addPassword' method
 int num_of_char() {
 	int num;
 	std::cout << "Number of characters: ";
@@ -141,11 +148,11 @@ int num_of_char() {
 	return num;
 
 }
-/*!Saves the updated file
-* parameter 'text' is the new data which must be stored
-* parameter 'key' is the password which user used for the decryption of a file
-* Categories inside the vecor are encrypted and written to the file as well.
- */
+
+///Saves the updated file.
+///Parameter 'text' is the new data which must be stored.
+///Parameter 'key' is the password which user used for the decryption of a file.
+///Categories inside the vecor are encrypted and written to the file as well.
 void MyFile::save(std::string text, std::string key) {
 	//https://www.delftstack.com/howto/cpp/how-to-append-text-to-a-file-in-cpp/
 	std::ofstream myFile;
@@ -225,7 +232,10 @@ void MyFile::save(std::string text, std::string key) {
 		myFile << '\n';
 	}
 }
-//!Invoked from addPassword method when the user is asked to which category the record should be assigned to
+/// <summary>
+/// Invoked from addPassword method when the user is asked to which category the record should be assigned to
+/// </summary>
+/// <returns>string</returns>
 std::string MyFile::chooseCat() {
 	std::cout << "Choose a category\n";
 	int c;
@@ -241,9 +251,8 @@ std::string MyFile::chooseCat() {
 		return category.at(c - 1);
 	}
 	
-/*!!Removes a category from the vector with categories
-* As well as removes all records associated with that category
-*/
+///Removes a category from the vector with categories
+///As well as removes all records associated with that category
 void MyFile::removeCategory() {
 	int i;
 	std::cout << "Choose a category to remove: ";
@@ -273,7 +282,7 @@ void MyFile::removeCategory() {
 	category.erase(category.begin() + i -1);
 	
 }
-//!Search for passwords according to the name of the platform that a user provides
+//!Searches for passwords according to the name of the platform that a user provides
 void MyFile::searchPassword() {
 	std::string name;
 	std::cout << "Enter the name of a platform: ";
@@ -292,10 +301,8 @@ void MyFile::searchPassword() {
 		}
 	}
 }
-/*!
-* Removes passwords from a file.
-* The user is asked to confirm the changes
-*/
+/// Removes passwords from a file.
+///The user is asked to confirm the changes
 void MyFile::removePassword() {
 	std::string modified = text;
 	while (true) {
@@ -348,9 +355,7 @@ void MyFile::removePassword() {
 	}
 	
 }
-/*!
-* Edits the user's passwords one at a time
-*/
+/// Edits the user's passwords one at a time
 void MyFile::editPassword() {
 	std::cout << "Choose a password which you want to update\n";
 	int num = 0, i;

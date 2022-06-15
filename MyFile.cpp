@@ -133,8 +133,10 @@ void MyFile::addPassword() {
 	
 	setText(res);
 }
-///Invoked when a user opts to generate a random password 
-///in 'addPassword' method
+/// <summary>
+/// Invoked from addPassword method when a user is asked how many characters a random passwords should contain
+/// </summary>
+/// <returns>int</returns>
 int num_of_char() {
 	int num;
 	std::cout << "Number of characters: ";

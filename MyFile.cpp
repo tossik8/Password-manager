@@ -12,22 +12,24 @@ MyFile::MyFile() : text(""), category({}) {}
 /// <summary>
 /// Returns the content of MyFile object
 /// </summary>
-/// <returns>string</returns>
+/// <returns>All passwords</returns>
 std::string MyFile::getText() const{
 	return text;
 }
 /// <summary>
 /// Returns a vector with all categories
 /// </summary>
-/// <returns>vector of strings</returns>
+/// <returns>All categories</returns>
 std::vector<std::string> MyFile::getVector() const{
 	return category;
 }
-//!Updates the content of the class
+//! Updates the content of the class
+//! @param text is the text which should be added to the existing records
 void MyFile::setText(std::string text) {
 	this->text = this->text.append(text).append("\n");
 }
 //! Adds a new category to the existing ones
+//! @param cate is a category which should be added to the existing ones
 void MyFile::addCategory(std::string cate) {
 	
 	for (int i = 0; i < category.size(); ++i) {
@@ -136,7 +138,8 @@ void MyFile::addPassword() {
 /// <summary>
 /// Invoked from addPassword method when a user is asked how many characters a random passwords should contain
 /// </summary>
-/// <returns>int</returns>
+/// <returns>The number of symbols a password will comprise</returns>
+/// @see MyFile::addPassword()
 int num_of_char() {
 	int num;
 	std::cout << "Number of characters: ";
@@ -150,11 +153,12 @@ int num_of_char() {
 	return num;
 
 }
-
-///Saves the updated file.
-///Parameter 'text' is the new data which must be stored.
-///Parameter 'key' is the password which user used for the decryption of a file.
-///Categories inside the vecor are encrypted and written to the file as well.
+/// Saves data
+/// 
+/// Overrides the currently existing file with new data.
+/// Categories inside the vecor are encrypted and written to the file as well.
+/// @param text text which must be saved
+/// @param key is the key which is going to be used for encryption
 void MyFile::save(std::string text, std::string key) {
 	//https://www.delftstack.com/howto/cpp/how-to-append-text-to-a-file-in-cpp/
 	std::ofstream myFile;
@@ -237,7 +241,8 @@ void MyFile::save(std::string text, std::string key) {
 /// <summary>
 /// Invoked from addPassword method when the user is asked to which category the record should be assigned to
 /// </summary>
-/// <returns>string</returns>
+/// <returns>A category that has been chosen</returns>
+/// @see addPassword()
 std::string MyFile::chooseCat() {
 	std::cout << "Choose a category\n";
 	int c;

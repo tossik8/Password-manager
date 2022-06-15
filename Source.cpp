@@ -4,7 +4,7 @@
 #include <filesystem>
 #include "MyFile.h"
 #include <fstream>
-//!Prints out the main menu
+///Prints out the main menu
 void menu() {
     std::cout << "1 - Search for passwords\n"
         << "2 - Sort passwords\n"
@@ -17,16 +17,17 @@ void menu() {
         << "9 - See cattegories\n"
         << "10 - Save & exit\n";
 }
-/*!The function checks if a file, which the user inputted,
-* has been encrypted by the program and, therefore, it is the right file.
-* Unless the file is the one on which the program can operate,
-* the user will be recursively asked to enter the name of an appropriate file.
-* Each time the user makes 3 consecutive mistakes, the program will ask once again
-* if the user ever started the application earlier
-* The first parameter 'var' keeps track of hom many consecutive mistakes
-* have happened. The following parameter 'pass' takes the password
-* the user has provided and is used for decrypting the first line of a file.
-*/
+/// Gets the right file
+/// 
+/// The function checks if a file, which the user inputted,
+/// has been encrypted by the program and, therefore, it is the right file.
+/// Unless the file is the one on which the program can operate,
+/// the user will be recursively asked to enter the name of an appropriate file.
+/// Each time the user makes 3 consecutive mistakes, the program will ask once again
+/// if the user ever started the application earlier.
+/// @param var count how many consecutive fails have happened
+/// @param pass password which has been provided by the user to decrypt a file
+/// <returns>The name of the file</returns> 
 std::string fileGetter(int var, std::string pass) {
     if (var != 0 && var % 3 == 0) {
         char c;
@@ -195,11 +196,6 @@ int main() {
         std::cout << "Password has been set\n";
         myFile.close();
         
-        /*m.addPassword();
-        m.addCategory("KK");
-        std::cout << m.getText();
-        m.save(m.getText(), pass);
-        m.categories();*/
     }
     else {
         std::cout << "Enter your password: ";
@@ -274,18 +270,9 @@ int main() {
                 }
             }
             
-            std::cout << m.getText();
+            
             file.close();
-            //m.editPassword();
-           // m.addPassword();
-            //m.removePassword();
-            // m.categories();
-            //m.editPassword();
-           // m.searchPassword();
-            //m.removeCategory();
-            // m.addCategory("Max");
-            //std::cout << m.getText();
-             m.save(m.getText(), pass);
+            
            
         }
         

@@ -1,7 +1,8 @@
 #include <string>
 #include <vector>
-///MyFile class is needed for storing information
-///about the passwords and categories while user is running the program
+/// Stores passwords and categories
+/// 
+/// MyFile class is needed for storing information about the passwords and categories while a user is running the program
 class MyFile {
 	std::string text;
 	std::vector<std::string> category;

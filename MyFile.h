@@ -1,8 +1,7 @@
 #include <string>
 #include <vector>
-/*!MyFile class is needed for storing information
-* about the passwords and categories while user is running the program
-*/
+///MyFile class is needed for storing information
+///about the passwords and categories while user is running the program
 class MyFile {
 	std::string text;
 	std::vector<std::string> category;
@@ -20,5 +19,6 @@ public:
 	void editPassword();
 	void removePassword();
 	void searchPassword();
+	friend int num_of_char();
 };
-int num_of_char();
+

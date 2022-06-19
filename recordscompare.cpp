@@ -1,5 +1,5 @@
 #include "recordscompare.h"
-bool recordscompare::operator()(const std::string& s1, const std::string& s2) {
+bool recordscompare::operator()(const std::string& s1, const std::string& s2) const {
 	int nameS = s1.find(": "), cateS = s1.find("Category: ");
 	std::string help = s1.substr(cateS + 10);
 	int cate = help.find(" ");

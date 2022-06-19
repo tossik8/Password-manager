@@ -181,7 +181,6 @@ void MyFile::addPassword() {
 void MyFile::save(std::string text, std::string key) {
 	//https://www.delftstack.com/howto/cpp/how-to-append-text-to-a-file-in-cpp/
 	std::ofstream myFile;
-	
 	myFile.open("Passwords.txt");
 	
 	//
@@ -235,6 +234,7 @@ void MyFile::save(std::string text, std::string key) {
 			++keyInd;
 		}
 	}
+	
 	const std::string s = "Categories\n";
 	for (int i = 0, keyInd = 0; i < s.size(); ++i) {
 		if (key.size() <= keyInd) keyInd = 0;
@@ -281,14 +281,21 @@ std::string MyFile::chooseCat() {
 ///As well as removes all records associated with that category
 void MyFile::removeCategory() {
 	int i;
-	std::cout << "Choose a category to remove: ";
+	std::cout << "REMEMBER that removing a category means deleting all the records which fall into that category!!!\n"
+			  <<"Choose a category to remove: \n";
 	categories();
 	std::cin >> i;
-	if (i <= 0) {
-		std::cout << "Wrong input\n";
-		return removeCategory();
+	if (std::cin) {
+		if (i <= 0) {
+			std::cout << "Wrong input\n";
+			return removeCategory();
+		}
+		else if (i > category.size()) {
+			std::cout << "Wrong input\n";
+			return removeCategory();
+		}
 	}
-	else if (i > category.size()) {
+	else {
 		std::cout << "Wrong input\n";
 		return removeCategory();
 	}
@@ -297,8 +304,7 @@ void MyFile::removeCategory() {
 	istream.str(getText());
 	std::string line;
 	text = "";
-	while (istream) {
-		getline(istream, line);
+	while (getline(istream, line)) {
 		if (line.find(cat) != std::string::npos) {
 			continue;
 		}
@@ -332,7 +338,7 @@ void MyFile::searchPassword() {
 void MyFile::removePassword() {
 	std::string modified = text;
 	while (true) {
-		int num = 0,i;
+		int num = 0,i=0;
 		std::istringstream istream;
 		std::string line;
 		istream.str(modified);
@@ -341,21 +347,28 @@ void MyFile::removePassword() {
 		}
 		std::cout << "Choose a record to remove(0 to quit): ";
 		std::cin >> i;
-		if (i == 0) break;
-		else if (i < 0) {
-			std::cout << "Wrong input\n";
-			continue;
+		if (std::cin) {
+			if (i == 0) break;
+			else if (i < 0) {
+				std::cout << "Wrong input\n";
+				continue;
+			}
+			else if (i > num) {
+				std::cout << "Wrong input\n";
+				continue;
+			}
 		}
-		else if (i > num) {
+		else {
 			std::cout << "Wrong input\n";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			continue;
 		}
 		num = 1;
 		istream.clear();
 		istream.str(modified);
 		modified = "";
-		while (istream) {
-			getline(istream, line);
+		while (getline(istream, line)) {
 			if (num == i) {
 				++num;
 				continue;
@@ -365,6 +378,7 @@ void MyFile::removePassword() {
 		}
 		std::cout << "After removal\n";
 		std::cout << modified << '\n';
+		std::cin.clear();
 			
 
 	}
@@ -374,8 +388,10 @@ void MyFile::removePassword() {
 	if (conf == "y") { 
 		std::cout << "Changes have been saved\n//\n";
 		text = "";
-		setText(modified);
-		std::cout << this->getText();
+		if (modified == "");
+		else {
+			setText(modified);
+		}
 
 	}
 	

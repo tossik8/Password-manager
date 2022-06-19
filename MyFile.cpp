@@ -45,6 +45,7 @@ std::list<std::string> MyFile::sortPasswords() {
 	}
 	recordscompare rcd;
 	records.sort(rcd);
+	text = "";
 	return records;
 }
 //! Adds a new category to the existing ones

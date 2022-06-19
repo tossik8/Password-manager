@@ -302,9 +302,9 @@ int main() {
                 std::list<std::string> records = m.sortPasswords();
                 std::list<std::string>::iterator it;
                 for (it = records.begin(); it != records.end(); ++it) {
-                    std::cout << *it << '\n';
+                    m.setText(*it);
                 }
-                std::cout << "//\n";
+                std::cout << "Records have been sorted\n//\n";
                 break;
             }
             case 3: {

@@ -1,9 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <string>
 #include <vector>
 #include <filesystem>
 #include "MyFile.h"
 #include <fstream>
+#include <ctime>
+#include <chrono>
 ///Prints out the main menu
 void menu() {
     std::cout << "1 - Search for passwords\n"

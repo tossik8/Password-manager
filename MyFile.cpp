@@ -64,7 +64,7 @@ void MyFile::addCategory(std::string cate) {
 /// </summary>
 /// <returns>The number of symbols a password will comprise</returns>
 /// @see MyFile::addPassword()
-int num_of_char() {
+int num_of_char(){
 	int num;
 	std::cout << "Number of characters: ";
 	//https://stackoverflow.com/questions/20709633/what-do-i-do-with-throw-to-handle-wrong-data-type-in-c
@@ -181,7 +181,7 @@ void MyFile::addPassword() {
 /// Categories inside the vecor are encrypted and written to the file as well.
 /// @param text text which must be saved
 /// @param key is the key which is going to be used for encryption
-void MyFile::save(std::string text, std::string key) {
+void MyFile::save(std::string text, std::string key) const {
 	//https://www.delftstack.com/howto/cpp/how-to-append-text-to-a-file-in-cpp/
 	std::ofstream myFile;
 	myFile.open("Passwords.txt");
@@ -265,19 +265,18 @@ void MyFile::save(std::string text, std::string key) {
 /// </summary>
 /// <returns>A category that has been chosen</returns>
 /// @see addPassword()
-std::string MyFile::chooseCat() {
+std::string MyFile::chooseCat() const {
 	std::cout << "Choose a category\n";
 	int c;
 	categories();
-		std::cin >> c;
-		if (c <= 0 || c > category.size() || !std::cin) {
-			std::cout << "Wrong value\n";
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			return chooseCat();
-		}
-		
-		return category.at(c - 1);
+	std::cin >> c;
+	if (c <= 0 || c > category.size() || !std::cin) {
+		std::cout << "Wrong value\n";
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		return chooseCat();
+	}	
+	return category.at(c - 1);
 	}
 	
 ///Removes a category from the vector with categories
@@ -318,7 +317,7 @@ void MyFile::removeCategory() {
 	
 }
 //!Searches for passwords according to the name of the platform that a user provides
-void MyFile::searchPassword() {
+void MyFile::searchPassword() const{
 	std::string name;
 	std::cout << "Enter the name of a platform: ";
 	std::cin >> name;
@@ -326,15 +325,18 @@ void MyFile::searchPassword() {
 	std::istringstream istream;
 	istream.str(getText());
 	std::string line;
-	while (istream)/**/ {
-		getline(istream, line);
+	bool found = false;
+	while (getline(istream, line))/**/ {
 		//https://www.techiedelight.com/check-if-a-string-contains-another-string-in-cpp/#:~:text=Using%20basic_string%3A%3Acontains,specif
 		//ied%20substring%2C%20and%20false%20otherwise.&text=That's%20all%20about%20checking%20if,another%20string%20in%20C%2B%2B.
 		if (line.find(name) != std::string::npos) {
+			found = true;
 			std::cout << line << '\n';
 			
 		}
 	}
+	if (!found) std::cout << "No such password\n//\n";
+	else std::cout << "//\n";
 }
 /// Removes passwords from a file.
 ///The user is asked to confirm the changes

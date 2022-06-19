@@ -1,4 +1,5 @@
 #include "MyFile.h"
+#include "recordscompare.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -42,7 +43,8 @@ std::list<std::string> MyFile::sortPasswords() {
 	while (getline(is, line)) {
 		records.push_back(line);
 	}
-	
+	recordscompare rcd;
+	records.sort(rcd);
 	return records;
 }
 //! Adds a new category to the existing ones

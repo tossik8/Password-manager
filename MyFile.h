@@ -17,11 +17,11 @@ public:
 	void addPassword();
 	void addCategory(std::string cate);
 	void removeCategory();
-	void save(std::string file, std::string key);
-	std::string chooseCat();
+	void save(std::string file, std::string key) const;
+	std::string chooseCat() const;
 	void editPassword();
 	void removePassword();
-	void searchPassword();
+	void searchPassword() const;
 	std::list<std::string> sortPasswords();
 	
 };

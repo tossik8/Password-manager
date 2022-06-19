@@ -14,7 +14,7 @@ void menu() {
         << "6 - Add a category\n"
         << "7 - Remove a category\n"
         << "8 - See passwords\n"
-        << "9 - See cattegories\n"
+        << "9 - See categories\n"
         << "10 - Save & exit\n";
 }
 /// Gets the right file
@@ -175,6 +175,7 @@ std::string fileGetter(int var, std::string pass) {
     f.close();
     return fileGetter(++var,pass);
 }
+
 int main() {
 
     std::cout << "Hello, you have opened Password Manager\n"
@@ -298,7 +299,12 @@ int main() {
                 break;
             }
             case 2: {
-                //m.sortPasswords();
+                std::list<std::string> records = m.sortPasswords();
+                std::list<std::string>::iterator it;
+                for (it = records.begin(); it != records.end(); ++it) {
+                    std::cout << *it << '\n';
+                }
+                std::cout << "//\n";
                 break;
             }
             case 3: {
@@ -318,7 +324,7 @@ int main() {
                 std::cout << "Enter the name of a category: ";
                 std::cin >> s;
                 m.addCategory(s);
-                std::cout << "Category " << s <<" has been added\n";
+                std::cout << "Category " << s <<" has been added\n//\n";
                 break;
             }
             case 7: {
@@ -326,13 +332,12 @@ int main() {
                 break;
             }
             case 8: {
-                std::cout << m.getText();
+                std::cout << m.getText() << "//\n";
                 break;
             }
             case 9: {
                 std::cout << "Categories\n";
                 m.categories();
-                std::cout << "//\n";
                 break;
             }
             case 10: {
@@ -341,7 +346,7 @@ int main() {
                 return 0;
             }
             default: {
-                std::cout << "Invalid input\n";
+                std::cout << "Invalid input\n//\n";
             }
 
         }

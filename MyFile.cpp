@@ -6,6 +6,8 @@
 #include <fstream>
 #include <regex>
 #include <sstream>
+#include <list>
+#include <iterator>
 
 //! Constructs an object needed for manipulating data
 MyFile::MyFile() : text(""), category({}) {}
@@ -28,6 +30,21 @@ std::vector<std::string> MyFile::getVector() const{
 void MyFile::setText(std::string text) {
 	this->text = this->text.append(text).append("\n");
 }
+/// <summary>
+/// Sorts passwords in ascending order by the name of a platform and its' category
+/// </summary>
+/// <returns>List of sorted passwords</returns>
+std::list<std::string> MyFile::sortPasswords() {
+	std::list<std::string> records;
+	std::istringstream is;
+	is.str(text);
+	std::string line;
+	while (getline(is, line)) {
+		records.push_back(line);
+	}
+	
+	return records;
+}
 //! Adds a new category to the existing ones
 //! @param cate is a category which should be added to the existing ones
 void MyFile::addCategory(std::string cate) {
@@ -38,6 +55,24 @@ void MyFile::addCategory(std::string cate) {
 		}
 	}
 	category.push_back(cate);
+}
+/// <summary>
+/// Invoked from addPassword method when a user is asked how many characters a random passwords should contain
+/// </summary>
+/// <returns>The number of symbols a password will comprise</returns>
+/// @see MyFile::addPassword()
+int num_of_char() {
+	int num;
+	std::cout << "Number of characters: ";
+	//https://stackoverflow.com/questions/20709633/what-do-i-do-with-throw-to-handle-wrong-data-type-in-c
+	while (!(std::cin >> num) || num <= 0)
+	{
+		std::cout << "Number of characters: ";
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}//
+	return num;
+
 }
 //!Adds a new password to the currently existing ones
 void MyFile::addPassword() {
@@ -134,25 +169,9 @@ void MyFile::addPassword() {
 	}
 	
 	setText(res);
+	std::cout << "Password has been added\n//\n";
 }
-/// <summary>
-/// Invoked from addPassword method when a user is asked how many characters a random passwords should contain
-/// </summary>
-/// <returns>The number of symbols a password will comprise</returns>
-/// @see MyFile::addPassword()
-int num_of_char() {
-	int num;
-	std::cout << "Number of characters: ";
-	//https://stackoverflow.com/questions/20709633/what-do-i-do-with-throw-to-handle-wrong-data-type-in-c
-	while (!(std::cin >> num) || num <= 0)
-	{
-		std::cout << "Number of characters: ";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	}//
-	return num;
 
-}
 /// Saves data
 /// 
 /// Overrides the currently existing file with new data.
@@ -278,14 +297,14 @@ void MyFile::removeCategory() {
 	istream.str(getText());
 	std::string line;
 	text = "";
-	while (istream)/**/ {
+	while (istream) {
 		getline(istream, line);
 		if (line.find(cat) != std::string::npos) {
 			continue;
 		}
 		setText(line);
 	}
-	std::cout << category.at(i-1) << " has been removed as well as all the records associated with it\n";
+	std::cout << category.at(i-1) << " has been removed as well as all the records associated with it\n//\n";
 	category.erase(category.begin() + i -1);
 	
 }
@@ -337,12 +356,15 @@ void MyFile::removePassword() {
 		modified = "";
 		while (istream) {
 			getline(istream, line);
-			if (num == i) continue;
+			if (num == i) {
+				++num;
+				continue;
+			}
 			++num;
-			modified.append(line).append("\n");
+			modified.append(line);
 		}
 		std::cout << "After removal\n";
-		std::cout << modified;
+		std::cout << modified << '\n';
 			
 
 	}
@@ -350,7 +372,7 @@ void MyFile::removePassword() {
 	std::cout << "Are you sure you want to commit changes?[y/n] ";
 	std::cin >> conf;
 	if (conf == "y") { 
-		std::cout << "Changes have been saved\n";
+		std::cout << "Changes have been saved\n//\n";
 		text = "";
 		setText(modified);
 		std::cout << this->getText();
@@ -358,7 +380,7 @@ void MyFile::removePassword() {
 	}
 	
 	else{
-		std::cout << "Nothing has been changed\n";
+		std::cout << "Nothing has been changed\n//\n";
 	}
 	
 }
@@ -405,17 +427,18 @@ void MyFile::editPassword() {
 		++num;
 		
 	}
-	std::cout << "Password has been modified\n";
+	std::cout << "Password has been modified\n//\n";
 
 }
 
 //! Lists all categories
 void MyFile::categories() const {
 	if (category.size() == 0) {
-		std::cout << "There are no categories\n";
+		std::cout << "There are no categories\n//\n";
 		return;
 	}
 	for (int i = 0; i < category.size(); ++i) {
 		std::cout << i+1 << " - " << category.at(i) << "\n";
 	}
+	std::cout << "//\n";
 }
